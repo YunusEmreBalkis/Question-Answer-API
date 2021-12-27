@@ -55,5 +55,27 @@ namespace WebApı.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpPost("update")]
+        public IActionResult Update(Question question)
+        {
+            var result = _questionService.Update(question);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("Delete")]
+        public IActionResult Delete(Question question)
+        {
+            var result = _questionService.Delete(question);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }
