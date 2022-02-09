@@ -67,7 +67,7 @@ namespace WebApı.Controllers
         [HttpPost("delete")]
         public IActionResult Delete(Answer answer)
         {
-            var result = _answerService.Add(answer);
+            var result = _answerService.Delete(answer);
             if (result.Success)
             {
                 return Ok(result);
