@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constans;
 using Business.ValidationRules.FluentValidation;
 using Core.Apects.Autofac.Caching;
@@ -28,8 +29,6 @@ namespace Business.Concrete
         [CacheRemoveAspect("IQuestionService.GetAll")]
         public IResult Add(Question question)
         {
-            
-
             _questionDal.Add(question);
             return new SuccessResult(Messages.QuestionAdded);
         }
@@ -49,10 +48,6 @@ namespace Business.Concrete
         [CacheAspect]
         public IDataResult<List<Question>> GetAll()
         {
-            //if (DateTime.Now.Hour==10)
-            //{
-            //    return new ErrorDataResult<List<Question>>(Messages.MaintenanceTime);
-            //}
             return new SuccessDataResult<List<Question>>(_questionDal.GetAll(),Messages.QuestionListed);
         }
 

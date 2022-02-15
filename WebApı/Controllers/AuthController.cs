@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebApı.Controllers
@@ -23,6 +24,7 @@ namespace WebApı.Controllers
         public ActionResult Login(UserForLoginDto userForLoginDto)
         {
             var userToLogin = _authService.Login(userForLoginDto);
+           
             if (!userToLogin.Success)
             {
                 return BadRequest(userToLogin.Message);
@@ -32,6 +34,7 @@ namespace WebApı.Controllers
             if (result.Success)
             {
                 return Ok(result);
+
             }
 
             return BadRequest(result.Message);

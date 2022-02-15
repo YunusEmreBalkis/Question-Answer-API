@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebApı.Controllers
@@ -59,7 +60,13 @@ namespace WebApı.Controllers
         [HttpPost("update")]
         public IActionResult Update(Question question)
         {
+            var resultowner = checkOwner(question.UserId);
+            if (resultowner == false)
+            {
+                return Unauthorized();
+            }
             var result = _questionService.Update(question);
+            
             if (result.Success)
             {
                 return Ok(result);
@@ -70,12 +77,28 @@ namespace WebApı.Controllers
         [HttpPost("Delete")]
         public IActionResult Delete(Question question)
         {
+            var resultowner = checkOwner(question.UserId);
+            if (resultowner == false)
+            {
+                return Unauthorized();
+            }
             var result = _questionService.Delete(question);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+
+        public bool checkOwner(int userId)
+        {
+            var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id == null)
+            {
+                return false;
+            }
+            var currentUserId = int.Parse(id);
+            return currentUserId != userId ?  false : true;
         }
     }
 }

@@ -38,6 +38,7 @@ namespace WebApı
         {
             services.AddControllers();
 
+            services.AddCors();
 
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -71,6 +72,8 @@ namespace WebApı
             }
 
             app.ConfigureCustomExceptionMiddleware();
+
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseHttpsRedirection();
 
